@@ -31,6 +31,13 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  score = 0
+  return score if dice == nil || dice == []
+  quantity = dice.inject(Hash.new(0)) {|result,element| result[element] +=1; result}
+  score += quantity[1] >= 3 ? 1000 + ((quantity[1] - 3) * 100) : quantity[1] * 100
+  score += quantity[5] >= 3 ? 500 + ((quantity[5] - 3) * 50) : quantity[5] * 50
+  [2,3,4,6].each {|x| score += x * 100 if quantity[x] >= 3 }
+  score
 end
 
 class AboutScoringProject < Neo::Koan
